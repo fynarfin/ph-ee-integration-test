@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class WireMockServerSingleton {
 
     static Logger logger = LoggerFactory.getLogger(WireMockServerSingleton.class);
-    private static transient final ThreadLocal<WireMockServer> threadLocalInstance = new ThreadLocal<>();
+    private static final transient ThreadLocal<WireMockServer> threadLocalInstance = new ThreadLocal<>();
 
     public static WireMockServer getInstance() {
         WireMockServer instance = threadLocalInstance.get();
@@ -30,7 +30,7 @@ public class WireMockServerSingleton {
     private static WireMockServer startWireMockServerWithRetry(int maxRetries) {
         WireMockServer server = null;
         for (int attempt = 1; attempt <= maxRetries; attempt++) {
-            //int port = getRandomPort();
+            // int port = getRandomPort();
             server = new WireMockServer(53013);
             try {
                 server.start();
@@ -44,7 +44,7 @@ public class WireMockServerSingleton {
         throw new IllegalStateException("Failed to start WireMock server after " + maxRetries + " attempts.");
     }
 
-    private  int getRandomPort() {
+    private int getRandomPort() {
         // This returns a port number in the range 1024-65535
         return 1024 + (int) (Math.random() * ((65535 - 1024) + 1));
     }
