@@ -206,21 +206,21 @@ task cucumberCli() {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = [
-                    '--plugin',
-                    'html:cucumber-report',
-                    '--plugin',
-                    'json:cucumber.json',
-                    '--plugin',
-                    'pretty',
-                    '--plugin',
-                    'html:build/cucumber-report.html',
-                    '--plugin',
-                    'json:build/cucumber-report.json',
-                    '--glue',
-                    'org.mifos.integrationtest.cucumber',
-                    'src/test/java/resources',
-                    '--threads',
-                    Runtime.runtime.availableProcessors().div(2).toString()
+                '--plugin',
+                'html:cucumber-report',
+                '--plugin',
+                'json:cucumber.json',
+                '--plugin',
+                'pretty',
+                '--plugin',
+                'html:build/cucumber-report.html',
+                '--plugin',
+                'json:build/cucumber-report.json',
+                '--glue',
+                'org.mifos.integrationtest.cucumber',
+                'src/test/java/resources',
+                '--threads',
+                Runtime.runtime.availableProcessors().div(2).toString()
             ]
         }
     }
