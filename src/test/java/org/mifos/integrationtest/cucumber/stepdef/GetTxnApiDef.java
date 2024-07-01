@@ -57,6 +57,7 @@ public class GetTxnApiDef extends BaseStepDef {
             endDate = formatter.format(LocalDateTime.now().plusDays(1));
         }
         String startDate = formatter.format(LocalDateTime.now().minusDays(daydiff));
+        logger.info("Start date: {}", startDate);
         RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
         if (authEnabled) {
             requestSpec.header("Authorization", "Bearer " + scenarioScopeState.accessToken);
@@ -67,7 +68,7 @@ public class GetTxnApiDef extends BaseStepDef {
                 .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when()
                 .get(operationsAppConfig.transactionRequestsEndpoint).andReturn().asString();
 
-        logger.info("GetTxn Request Response: " + scenarioScopeState.response);
+        logger.info("GetTxn Request Response: {}", scenarioScopeState.response);
 
     }
 
@@ -88,5 +89,29 @@ public class GetTxnApiDef extends BaseStepDef {
                 .when().post("/channel/collection").andReturn().asString();
         CollectionResponse response = (new Gson()).fromJson(json, CollectionResponse.class);
         assertThat(response.getTransactionId()).isNotEmpty();
+    }
+
+    @When("I call the get txn API for payer party ID with expected status of {int}")
+    public void iCallTheGetTxnAPIForPayerPartyIDWithExpectedStatusOf(int expectedStatus) {
+
+    }
+
+    @When("I call the get txn API for payer party ID {int} with expected status of {int}")
+    public void iCallTheGetTxnAPIForPayerPartyIDWithExpectedStatusOf(int payerPartyId, int expectedStatus) {
+        await().atMost(awaitMost, SECONDS).pollDelay(pollDelay, SECONDS).pollInterval(pollInterval, SECONDS).untilAsserted(() -> {
+            RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+            if (authEnabled) {
+                requestSpec.header("Authorization", "Bearer " + scenarioScopeState.accessToken);
+            }
+
+            String endpoint = String.format("%s?payerPartyId=%d", operationsAppConfig.transactionRequestsEndpoint, payerPartyId);
+            logger.info("Calling Get Txn request endpoint: {}", endpoint);
+
+            scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                    .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when()
+                    .get(operationsAppConfig.transactionRequestsEndpoint).andReturn().asString();
+            assertThat(scenarioScopeState.response).isNotNull();
+            logger.info("GetTxn Request with payer party ID Response: {}", scenarioScopeState.response);
+        });
     }
 }
