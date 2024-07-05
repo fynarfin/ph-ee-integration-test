@@ -1,4 +1,4 @@
-@gov
+@common
 @cucumberCli
 Feature: Get Transfers API test
 
