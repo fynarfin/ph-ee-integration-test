@@ -59,3 +59,9 @@ Feature: Get Transfers API test
                 Then I should get a valid token
                 When I call the transfer API with clientCorrelationId of exceeding max length with status of 400
                 Then I should get non empty response
+
+        Scenario: GT-001 Get Transfers API with invalid txnID
+                Given I have tenant as "paymentBB2"
+                Then I should get a valid token
+                When I call the transfer API with invalid transactionId with status of 400
+                Then I should get non empty response

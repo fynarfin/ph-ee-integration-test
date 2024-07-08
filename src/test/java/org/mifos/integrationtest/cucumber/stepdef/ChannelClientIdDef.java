@@ -274,7 +274,7 @@ public class ChannelClientIdDef extends BaseStepDef {
                 .andReturn()
                 .asString();
 
-        logger.info("Inbound transfer with status 'PROCESSING' Response: {}", scenarioScopeState.response);
+        logger.info("Get transfer with status 'PROCESSING' Response: {}", scenarioScopeState.response);
     }
 
     @When("I call the transfer API with clientCorrelationId of exceeding max length with status of {int}")
@@ -299,6 +299,32 @@ public class ChannelClientIdDef extends BaseStepDef {
                 .andReturn()
                 .asString();
 
-        logger.info("Inbound transfer with clientCorrelationId longer than 12 characters Response: {}", scenarioScopeState.response);
+        logger.info("Get transfer with clientCorrelationId longer than 12 characters Response: {}", scenarioScopeState.response);
+    }
+
+    @When("I call the transfer API with invalid transactionId with status of {int}")
+    public void iCallTheTransferAPIWithInvalidTransactionIdWithStatusOf(int expectedStatus) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+
+        // Set the transactionId value to a random invalid value
+        String transactionId = "abcdefgh";
+
+        // Construct the endpoint with the clientCorrelationId parameter
+        String endpoint = String.format("%s?transactionId=%s", operationsAppConfig.transfersEndpoint, transactionId);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid transactionId: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec)
+                .baseUri(operationsAppConfig.operationAppContactPoint)
+                .expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
+                .when()
+                .get(endpoint)
+                .andReturn()
+                .asString();
+
+        logger.info("Get transfer with transactionId Response: {}", scenarioScopeState.response);
+
     }
 }
