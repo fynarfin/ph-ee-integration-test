@@ -21,6 +21,8 @@ public class ChannelConnectorConfig {
     public String collectionEndpoint;
     @Value("${channel-connector.endpoints.transferReq}")
     public String transferReqEndpoint;
+    @Value("${channel-connector.endpoints.gsma-transaction}")
+    public String gsmaTransactionEndpoint;
 
     public String transferUrl;
 
