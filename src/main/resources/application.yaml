@@ -273,3 +273,5 @@ fspconfig:
     payerfsp2: "gorilla"
 
 totalvouchers: 30
+
+amsName: "mifos"
