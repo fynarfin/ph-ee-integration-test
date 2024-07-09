@@ -67,7 +67,7 @@ Feature: Mojaloop test
     When I activate the account with command "activate" for "payer"
     Then I call the deposit account endpoint with command "deposit" for amount 12 for "payer"
 
-#    payee/payee2/payee3
+#    payee1/payee2/payee3
     Given I have Fineract-Platform-TenantId for "payee3"
     When I call the create client endpoint for "payee"
     Then I call the create savings product endpoint for "payee"
@@ -78,7 +78,7 @@ Feature: Mojaloop test
     Then I call the deposit account endpoint with command "deposit" for amount 10 for "payee"
 
     Then I add "payer" to als
-#    payee/payee2/payee3
+#    payee1/payee2/payee3
     Then I add "payee3" to als
 
     Then I call the payer fund transfer api to transfer amount "1" from payer to payee
