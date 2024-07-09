@@ -6,11 +6,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.mifos.connector.common.gsma.dto.CustomData;
 import org.mifos.connector.common.gsma.dto.GsmaTransfer;
 import org.mifos.connector.common.gsma.dto.Party;
@@ -21,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-public class ValidateGsmaDef extends BaseStepDef{
+public class ValidateGsmaDef extends BaseStepDef {
     @Autowired
     ScenarioScopeState scenarioScopeState;
 
