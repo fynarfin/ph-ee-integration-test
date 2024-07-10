@@ -10,7 +10,6 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.RequestSpecification;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -127,14 +126,8 @@ public class GetTxnApiDef extends BaseStepDef {
 
         logger.info("Calling endpoint with empty date: {}", fullUrl);
 
-        scenarioScopeState.response = RestAssured.given(requestSpec)
-                .baseUri(operationsAppConfig.operationAppContactPoint)
-                .expect()
-                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
-                .when()
-                .get(endpoint)
-                .andReturn()
-                .asString();
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
 
         logger.info(" transaction request with empty start date Response: {}", scenarioScopeState.response);
     }
@@ -152,14 +145,8 @@ public class GetTxnApiDef extends BaseStepDef {
 
         logger.info("Calling endpoint with invalid transactionId: {}", fullUrl);
 
-        scenarioScopeState.response = RestAssured.given(requestSpec)
-                .baseUri(operationsAppConfig.operationAppContactPoint)
-                .expect()
-                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
-                .when()
-                .get(endpoint)
-                .andReturn()
-                .asString();
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
 
         logger.info("Get transaction request with invalid transactionId Response: {}", scenarioScopeState.response);
 
