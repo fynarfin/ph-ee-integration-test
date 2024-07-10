@@ -3,6 +3,7 @@ package org.mifos.integrationtest.config;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 @Component
 public class ChannelConnectorConfig {
 
