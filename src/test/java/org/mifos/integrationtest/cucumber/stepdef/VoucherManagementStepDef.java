@@ -85,18 +85,16 @@ public class VoucherManagementStepDef extends BaseStepDef {
 
     @When("I call the create voucher API with expected status of {int} and stub {string}")
     public void iCallTheVoucherCreateAPIWithExpectedStatusOf(int expectedStatus, String stub) {
-        await().atMost(awaitMost, SECONDS).pollDelay(pollDelay, SECONDS).pollInterval(pollInterval, SECONDS).untilAsserted(() -> {
-            RequestSpecification requestSpec = Utils.getDefaultSpec();
-            scenarioScopeState.registeringInstitutionId = "SocialWelfare";
-            scenarioScopeState.response = RestAssured.given(requestSpec).header("Content-Type", "application/json")
-                    .header("X-CallbackURL", identityMapperConfig.callbackURL + stub)
-                    .header("X-Registering-Institution-ID", scenarioScopeState.registeringInstitutionId)
-                    .baseUri(voucherManagementConfig.voucherManagementContactPoint).body(scenarioScopeState.createVoucherBody).expect()
-                    .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when()
-                    .post(voucherManagementConfig.createVoucherEndpoint).andReturn().asString();
+        RequestSpecification requestSpec = Utils.getDefaultSpec();
+        scenarioScopeState.registeringInstitutionId = "SocialWelfare";
+        scenarioScopeState.response = RestAssured.given(requestSpec).header("Content-Type", "application/json")
+                .header("X-CallbackURL", identityMapperConfig.callbackURL + stub)
+                .header("X-Registering-Institution-ID", scenarioScopeState.registeringInstitutionId)
+                .baseUri(voucherManagementConfig.voucherManagementContactPoint).body(scenarioScopeState.createVoucherBody).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when()
+                .post(voucherManagementConfig.createVoucherEndpoint).andReturn().asString();
 
-            logger.info("Create Voucher Response: {}", scenarioScopeState.response);
-        });
+        logger.info("Create Voucher Response: {}", scenarioScopeState.response);
     }
 
     @When("I call the create voucher API having invalid header with expected status of {int} and stub {string}")

@@ -1,4 +1,3 @@
-@Bulk
 Feature: Batch Details API test
 
   @commonExtended @gov @batch-teardown
