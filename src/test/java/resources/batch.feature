@@ -294,7 +294,7 @@ Feature: Batch Details API test
     Then I should be able to extract response body from callback for batch
     When I make the "POST" request to "/callback" endpoint with expected status of 200
     Then I should be able to extract response body from callback for batch
-    And I can stop mock server
+
   @gov @batch-teardown
   Scenario: BD-019 Batch summary response result file URL Test
     Given I have the demo csv file "ph-ee-bulk-demo-6.csv"

@@ -8,10 +8,11 @@ plugins {
     id 'com.adarshr.test-logger' version '3.2.0'
 }
 
-apply plugin:'com.diffplug.spotless'
+apply plugin: 'com.diffplug.spotless'
+
 spotless {
     format 'misc', {
-        target '**/*.md', '**/*.properties', '**/.gitignore', '**/.openapi-generator-ignore', '**/*.yml', '**/*.xml', '**/**.json', '**/*.sql'
+        target '**/*.md', '**/*.properties', '**/.gitignore', '**/.openapi-generator-ignore', '**/*.yml', '**/*.xml', '**/*.json', '**/*.sql'
         targetExclude '**/build/**', '**/bin/**', '**/.settings/**', '**/.idea/**', '**/.gradle/**', '**/gradlew.bat', '**/licenses/**', '**/banner.txt', '.vscode/**'
         indentWithSpaces(4)
         endWithNewline()
@@ -31,15 +32,16 @@ spotless {
 }
 
 configure(this) {
-    // NOTE: order matters!
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'eclipse'
     apply plugin: 'checkstyle'
+
     configurations {
         implementation.setCanBeResolved(true)
         api.setCanBeResolved(true)
     }
+
     tasks.withType(JavaCompile) {
         options.compilerArgs += [
             "-Xlint:unchecked",
@@ -66,9 +68,6 @@ configure(this) {
             "-Xlint:varargs",
             "-Xlint:preview",
             "-Xlint:static",
-            // -Werror needs to be disabled because EclipseLink's static weaving doesn't generate warning-free code
-            // and during an IntelliJ recompilation, it fails
-            //"-Werror",
             "-Xmaxwarns",
             1500,
             "-Xmaxerrs",
@@ -76,8 +75,7 @@ configure(this) {
         ]
         options.deprecation = true
     }
-    // Configuration for the spotless plugin
-    // https://github.com/diffplug/spotless/tree/main/plugin-gradle
+
     spotless {
         java {
             targetExclude '**/build/**', '**/bin/**', '**/out/**'
@@ -86,7 +84,6 @@ configure(this) {
             eclipse().configFile "$rootDir/config/formatter.xml"
             endWithNewline()
             trimTrailingWhitespace()
-            // Enforce style modifier order
             custom 'Modifier ordering', {
                 def modifierRanking = [
                     public      : 1,
@@ -100,29 +97,22 @@ configure(this) {
                     volatile    : 9,
                     synchronized: 10,
                     native      : 11,
-                    strictfp    : 12]
-                // Find any instance of multiple modifiers. Lead with a non-word character to avoid
-                // accidental matching against for instance, "an alternative default value"
+                    strictfp    : 12
+                ]
                 it.replaceAll(/\W(?:public |protected |private |abstract |default |static |final |transient |volatile |synchronized |native |strictfp ){2,}/, {
-                    // Do not replace the leading non-word character.  Identify the modifiers
                     it.replaceAll(/(?:public |protected |private |abstract |default |static |final |transient |volatile |synchronized |native |strictfp ){2,}/, {
-                        // Sort the modifiers according to the ranking above
                         it.split().sort({ modifierRanking[it] }).join(' ') + ' '
-                    }
-                    )
-                }
-                )
+                    })
+                })
             }
         }
         lineEndings 'UNIX'
     }
-    // If we are running Gradle within Eclipse to enhance classes,
-    // set the classes directory to point to Eclipse's default build directory
+
     if (project.hasProperty('env') && project.getProperty('env') == 'eclipse') {
         sourceSets.main.java.outputDir = file("$projectDir/bin/main")
     }
-    // Configuration for the Checkstyle plugin
-    // https://docs.gradle.org/current/userguide/checkstyle_plugin.html
+
     dependencies {
         checkstyle 'com.puppycrawl.tools:checkstyle:10.3.1'
         checkstyle 'com.github.sevntu-checkstyle:sevntu-checks:1.42.0'
@@ -154,13 +144,11 @@ dependencies {
     testImplementation('io.rest-assured:rest-assured:5.1.1') {
         exclude group: 'org.codehaus.groovy'
     }
-
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
     implementation 'io.cucumber:cucumber-java:7.8.1'
     implementation 'io.cucumber:cucumber-spring:7.8.1'
     testImplementation 'io.cucumber:cucumber-junit:7.8.1'
-
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
     checkstyle 'com.puppycrawl.tools:checkstyle:10.9.3'
     checkstyle 'com.github.sevntu-checkstyle:sevntu-checks:1.44.1'
@@ -172,50 +160,22 @@ dependencies {
     testImplementation 'org.apache.commons:commons-csv:1.5'
     testImplementation 'org.awaitility:awaitility:4.2.0'
     implementation 'commons-validator:commons-validator:1.7'
+    implementation 'io.github.prashant-ramcharan:courgette-jvm:6.12.0'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-
-configurations {
-    cucumberRuntime {
-        extendsFrom testImplementation
+tasks.withType(Test) {
+    systemProperties = System.getProperties()
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        showStandardStreams = true
     }
-    testlogger {
-        // pick a theme - mocha, standard, plain, mocha-parallel, standard-parallel or plain-parallel
-        theme 'mocha'
-        showSkipped false
-        showStackTraces true
+    reports {
+        junitXml.destination = file("build/test-results/test")
+        html.destination = file("build/reports/tests/test")
     }
 }
 
-test {
-    systemProperty "cucumber.filter.tags", System.getProperty("cucumber.filter.tags")
-    systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name")
-}
-task cucumberCli() {
-    dependsOn assemble, testClasses
-    doLast {
-        javaexec {
-            main = "io.cucumber.core.cli.Main"
-            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = [
-                '--plugin',
-                'html:cucumber-report',
-                '--plugin',
-                'json:cucumber.json',
-                '--plugin',
-                'pretty',
-                '--plugin',
-                'html:build/cucumber-report.html',
-                '--plugin',
-                'json:build/cucumber-report.json',
-                '--glue',
-                'org.mifos.integrationtest.cucumber',
-                'src/test/java/resources'
-            ]
-        }
-    }
+task parallelRun(type: Test) {
+    include '**/TestRunner.class'
+    outputs.upToDateWhen { false }
 }

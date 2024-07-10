@@ -299,7 +299,6 @@ Feature: Identity Account Mapper Api Test
   Scenario: IAM-005 Account Lookup Api Consistency Test
     When I call the account lookup API 10 times with expected status of 202 and stub "/accountLookup"
 #    Then I will sleep for 3000 millisecond
-    And I can stop mock server
 
 
 

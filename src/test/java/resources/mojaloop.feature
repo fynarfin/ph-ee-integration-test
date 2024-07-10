@@ -16,7 +16,6 @@ Feature: Mojaloop test
     Then I call the get parties api in ml connector for "payee"
 #    Then I will sleep for 5000 millisecond
     Then I should be able to verify the callback for lookup
-    Then I can stop mock server
 
   Scenario: ML connector partial payee quotation test
     Given I am setting up Mojaloop
@@ -33,7 +32,6 @@ Feature: Mojaloop test
     Then I call the get quotation api in ml connector for "payee"
 #    Then I will sleep for 5000 millisecond
     Then I should be able to verify the callback for quotation
-    Then I can stop mock server
 
   Scenario: ML connector partial payee transfer test
     Given I am setting up Mojaloop
@@ -54,7 +52,6 @@ Feature: Mojaloop test
     Then I call the transfer api in ml connector for "payee"
 #    Then I will sleep for 5000 millisecond
     Then I should be able to verify the callback for transfer
-    Then I can stop mock server
 
  Scenario Outline: Payer Fund Transfer Flow test
     Given I am setting up Mojaloop
