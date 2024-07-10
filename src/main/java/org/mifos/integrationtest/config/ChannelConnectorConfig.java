@@ -3,7 +3,6 @@ package org.mifos.integrationtest.config;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 @Component
 public class ChannelConnectorConfig {
 
@@ -39,11 +38,6 @@ public class ChannelConnectorConfig {
     public String getGsmaTransactionEndpoint() {
         return gsmaTransactionEndpoint;
     }
-
-    public void setGsmaTransactionEndpoint(String gsmaTransactionEndpoint) {
-        this.gsmaTransactionEndpoint = gsmaTransactionEndpoint;
-    }
-
 
     @PostConstruct
     private void setup() {

@@ -76,7 +76,7 @@ public class ValidateChannelDef extends BaseStepDef {
     }
 
     @And("I should be able to assert the api validation for schema validation error response")
-    public void iWillAssertTheFieldsFromValidationResponse() {
+    public void iWillAssertTheFieldsFromValidationResponseForSchemaValidation() {
         try {
             JsonNode rootNode = objectMapper.readTree(scenarioScopeState.response);
 
@@ -84,6 +84,21 @@ public class ValidateChannelDef extends BaseStepDef {
 
             assertThat(errorDetails.getErrorCode()).isEqualTo("error.msg.schema.validation.errors");
             assertThat(errorDetails.getErrorDescription()).isEqualTo("The request is invalid");
+
+        } catch (Exception e) {
+            logger.info("An error occurred : {}", e);
+        }
+    }
+
+    @And("I should be able to assert the api validation for header validation error response")
+    public void iWillAssertTheFieldsFromValidationResponseForHeaderValidation() {
+        try {
+            JsonNode rootNode = objectMapper.readTree(scenarioScopeState.response);
+
+            ErrorDetails errorDetails = objectMapper.treeToValue(rootNode, ErrorDetails.class);
+
+            assertThat(errorDetails.getErrorCode()).isEqualTo("error.msg.header.validation.errors");
+            assertThat(errorDetails.getErrorDescription()).isEqualTo("The headers are invalid");
 
         } catch (Exception e) {
             logger.info("An error occurred : {}", e);
