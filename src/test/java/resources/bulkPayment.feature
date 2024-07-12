@@ -595,3 +595,4 @@ Feature: Test ability to make payment to individual with bank account
     Then I am able to parse batch summary response
     And Status of transaction is "COMPLETED"
     And My total txns 13 and successful txn count in response should Match
+
