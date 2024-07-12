@@ -181,6 +181,56 @@ public class GetTxnApiDef extends BaseStepDef {
         scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
                 .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
 
-        logger.info("Transaction request with currency and amount Response: {}", scenarioScopeState.response);
+        logger.info("Transaction request with invalid currency and amount Response: {}", scenarioScopeState.response);
+    }
+
+    @When("I call the get txn API with invalid startFrom and startTo format expecting status of {int}")
+    public void iCallTheGetTxnAPIWithInvalidStartFromAndStartToFormatExpectingStatusOf(int expectedStatus) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+
+        // Set an invalid date format for start from and start to
+        String invalidStartDate = "1111-11-1111";
+        String invalidEndDate = "2222-22-2222";
+
+        // Construct the endpoint with the invalid start from parameter
+        String endpoint = String.format("%s?startfrom=%s&startto=%s", operationsAppConfig.transactionRequestsEndpoint, invalidStartDate, invalidEndDate);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid date format: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec)
+                .baseUri(operationsAppConfig.operationAppContactPoint)
+                .expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
+                .when()
+                .get(endpoint)
+                .andReturn()
+                .asString();
+
+        logger.info("Txn request with invalid startFrom and startTo Response: {}", scenarioScopeState.response);
+    }
+
+    @When("I call the get txn API with invalid sorting order expecting status of {int}")
+    public void iCallTheGetTxnAPIWithInvalidSortingOrderExpectingStatusOf(int expectedStatus) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+
+        String order = "reverse";
+
+        String endpoint = String.format("%s?sortedOrder=%s", operationsAppConfig.transactionRequestsEndpoint, order);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid sorting order: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec)
+                .baseUri(operationsAppConfig.operationAppContactPoint)
+                .expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
+                .when()
+                .get(endpoint)
+                .andReturn()
+                .asString();
+
+        logger.info("Txn request with invalid sorting order Response: {}", scenarioScopeState.response);
+
     }
 }

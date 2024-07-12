@@ -37,7 +37,7 @@ Feature: Get Txn Req API test
     Then I should get non empty response
     And I should have startedAt and completedAt in response
 
-  Scenario: GTX-007 Get Txn Req with invalid txn Id in params
+  Scenario: GTX-007,014 Get Txn Req with invalid txn Id in params
     Given I have tenant as "paymentbb2"
     When I call the operations-app auth endpoint with username: "mifos" and password: "password"
     Then I should get a valid token
@@ -53,12 +53,26 @@ Feature: Get Txn Req API test
     Then I should get non empty response
     And I should have startedAt and completedAt in response
 
-#  Scenario: GTX-015 Get Txn Req with invalid page retrieval and size in params
-#    Given I have tenant as "paymentbb2"
-#    When I call the operations-app auth endpoint with username: "mifos" and password: "password"
-#    Then I should get a valid token
-#    When I call the get txn API with currency "USD" and amount -1 expecting expected status of 400
-#    Then I should get non empty response
-#    And I should have startedAt and completedAt in response
+  Scenario: GTX-016,017 Get Txn Req with invalid amount and currency in params
+    Given I have tenant as "paymentbb2"
+    When I call the operations-app auth endpoint with username: "mifos" and password: "password"
+    Then I should get a valid token
+    When I call the get txn API with currency "USD" and amount -1 expecting expected status of 400
+    Then I should get non empty response
+    And I should have startedAt and completedAt in response
 
+  Scenario: GTX-018,019 Get Txn Req with invalid date format in params
+    Given I have tenant as "paymentbb2"
+    When I call the operations-app auth endpoint with username: "mifos" and password: "password"
+    Then I should get a valid token
+    When I call the get txn API with invalid startFrom and startTo format expecting status of 400
+    Then I should get non empty response
+    And I should have startedAt and completedAt in response
 
+  Scenario: GTX-020.023 Get Txn Req with invalid sorting order format in params
+    Given I have tenant as "paymentbb2"
+    When I call the operations-app auth endpoint with username: "mifos" and password: "password"
+    Then I should get a valid token
+    When I call the get txn API with invalid sorting order expecting status of 400
+    Then I should get non empty response
+    And I should have startedAt and completedAt in response
