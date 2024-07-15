@@ -193,19 +193,14 @@ public class GetTxnApiDef extends BaseStepDef {
         String invalidEndDate = "2222-22-2222";
 
         // Construct the endpoint with the invalid start from parameter
-        String endpoint = String.format("%s?startfrom=%s&startto=%s", operationsAppConfig.transactionRequestsEndpoint, invalidStartDate, invalidEndDate);
+        String endpoint = String.format("%s?startfrom=%s&startto=%s", operationsAppConfig.transactionRequestsEndpoint, invalidStartDate,
+                invalidEndDate);
         String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
 
         logger.info("Calling endpoint with invalid date format: {}", fullUrl);
 
-        scenarioScopeState.response = RestAssured.given(requestSpec)
-                .baseUri(operationsAppConfig.operationAppContactPoint)
-                .expect()
-                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
-                .when()
-                .get(endpoint)
-                .andReturn()
-                .asString();
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
 
         logger.info("Txn request with invalid startFrom and startTo Response: {}", scenarioScopeState.response);
     }
@@ -221,14 +216,8 @@ public class GetTxnApiDef extends BaseStepDef {
 
         logger.info("Calling endpoint with invalid sorting order: {}", fullUrl);
 
-        scenarioScopeState.response = RestAssured.given(requestSpec)
-                .baseUri(operationsAppConfig.operationAppContactPoint)
-                .expect()
-                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
-                .when()
-                .get(endpoint)
-                .andReturn()
-                .asString();
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
 
         logger.info("Txn request with invalid sorting order Response: {}", scenarioScopeState.response);
 
@@ -245,14 +234,8 @@ public class GetTxnApiDef extends BaseStepDef {
 
         logger.info("Calling endpoint with invalid sortingBy: {}", fullUrl);
 
-        scenarioScopeState.response = RestAssured.given(requestSpec)
-                .baseUri(operationsAppConfig.operationAppContactPoint)
-                .expect()
-                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
-                .when()
-                .get(endpoint)
-                .andReturn()
-                .asString();
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
 
         logger.info("Txn request with invalid sortingBy Response: {}", scenarioScopeState.response);
     }
