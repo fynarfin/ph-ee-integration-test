@@ -233,4 +233,27 @@ public class GetTxnApiDef extends BaseStepDef {
         logger.info("Txn request with invalid sorting order Response: {}", scenarioScopeState.response);
 
     }
+
+    @When("I call the get txn API with invalid sortedBy expecting status of {int}")
+    public void iCallTheGetTxnAPIWithInvalidSortedByExpectingStatusOf(int expectedStatus) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+
+        String sortedBy = "jupiter";
+
+        String endpoint = String.format("%s?sortedBy=%s", operationsAppConfig.transactionRequestsEndpoint, sortedBy);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid sortingBy: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec)
+                .baseUri(operationsAppConfig.operationAppContactPoint)
+                .expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build())
+                .when()
+                .get(endpoint)
+                .andReturn()
+                .asString();
+
+        logger.info("Txn request with invalid sortingBy Response: {}", scenarioScopeState.response);
+    }
 }

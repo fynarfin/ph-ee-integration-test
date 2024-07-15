@@ -76,3 +76,13 @@ Feature: Get Txn Req API test
     When I call the get txn API with invalid sorting order expecting status of 400
     Then I should get non empty response
     And I should have startedAt and completedAt in response
+
+  Scenario: GTX-022 Get Txn Req with invalid sortedBy format in params
+    Given I have tenant as "paymentbb2"
+    When I call the operations-app auth endpoint with username: "mifos" and password: "password"
+    Then I should get a valid token
+    When I call the get txn API with invalid sortedBy expecting status of 400
+    Then I should get non empty response
+    And I should have startedAt and completedAt in response
+
+
