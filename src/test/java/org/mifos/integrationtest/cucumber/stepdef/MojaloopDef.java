@@ -42,7 +42,7 @@ public class MojaloopDef {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final String CURRENCY = "USD";
+    private static final String CURRENCY = "TZS";
 
     protected String setBodyAddAlsUser(String fspId) throws JsonProcessingException {
         AddUserAlsRequest addUserAlsRequest = new AddUserAlsRequest();
@@ -116,7 +116,7 @@ public class MojaloopDef {
         RequestSpecification requestSpec = Utils.getDefaultSpec();
         requestSpec.header("Content-Type", "application/json");
         String endpoint = mojaloopConfig.settlementModel;
-        SettlementModelRequestBody requestBody = settlementModelRequestBody("DEFERREDNETUSD");
+        SettlementModelRequestBody requestBody = settlementModelRequestBody("DEFERREDNETTZS");
         requestBody.setCurrency(CURRENCY);
 
         Response response = RestAssured.given(requestSpec).baseUri(mojaloopConfig.mojaloopCentralLedgerBaseurl).body(requestBody).when()
@@ -195,11 +195,15 @@ public class MojaloopDef {
 
         String payerFsp = mojaloopConfig.payerFspId;
         String payeeFsp = mojaloopConfig.payeeFspId;
+        String payeeFsp2 = mojaloopConfig.payeeFspId2;
+        String payeeFsp3 = mojaloopConfig.payeeFspId3;
         callbackEndpoints.getCallbackEndpoints().forEach(callback -> {
             String value = callback.getValue().replaceAll("\\{\\{CALLBACK_HOST\\}\\}", "http://" + mojaloopConfig.mlConnectorHost);
             try {
                 addCallbackEndpoint(payerFsp, callback.getType(), value);
                 addCallbackEndpoint(payeeFsp, callback.getType(), value);
+                addCallbackEndpoint(payeeFsp2, callback.getType(), value);
+                addCallbackEndpoint(payeeFsp3, callback.getType(), value);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -211,7 +215,7 @@ public class MojaloopDef {
         RequestSpecification requestSpec = Utils.getDefaultSpec();
         requestSpec.header("Content-Type", "application/json");
         String endpoint = mojaloopConfig.recordFundsEndpoint.replaceAll("\\{\\{fsp\\}\\}", fsp)
-                .replaceAll("\\{\\{payerfspSettlementAccountId\\}\\}", "4");
+                .replaceAll("\\{\\{payerfspSettlementAccountId\\}\\}", "16");
         String requestBody = objectMapper.writeValueAsString(getRecordFundsRequestBody());
 
         Response responseBody = RestAssured.given(requestSpec).baseUri(mojaloopConfig.mojaloopCentralLedgerBaseurl).body(requestBody)

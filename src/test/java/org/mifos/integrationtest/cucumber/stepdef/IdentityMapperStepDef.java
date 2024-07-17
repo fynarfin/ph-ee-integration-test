@@ -74,9 +74,9 @@ public class IdentityMapperStepDef extends BaseStepDef {
     public void iCallTheRegisterBeneficiaryAPIWithExpectedStatusOf(int expectedStatus, String stub) {
         RequestSpecification requestSpec = Utils.getDefaultSpec();
         scenarioScopeState.response = RestAssured.given(requestSpec).header("Content-Type", "application/json")
-                .header("X-Registering-Institution-ID", sourceBBID).header("X-CallbackURL", identityMapperConfig.callbackURL + stub)
-                .baseUri(identityMapperConfig.identityMapperContactPoint).body(registerBeneficiaryBody).expect()
-                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when()
+                .header("X-Registering-Institution-ID", scenarioScopeState.registeringInstituteId)
+                .header("X-CallbackURL", identityMapperConfig.callbackURL + stub).baseUri(identityMapperConfig.identityMapperContactPoint)
+                .body(registerBeneficiaryBody).expect().spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when()
                 .post(identityMapperConfig.registerBeneficiaryEndpoint).andReturn().asString();
 
         logger.info("Identity Mapper Response: {}", scenarioScopeState.response);
@@ -519,6 +519,23 @@ public class IdentityMapperStepDef extends BaseStepDef {
             }
             String payeeFsp = payeeFspArray[fspIndex];
             BeneficiaryDTO beneficiaryDTO = new BeneficiaryDTO(payeeIdentifier, "00", "1234", payeeFspConfig.getPayeeFsp(payeeFsp));
+            beneficiaryDTOList.add(beneficiaryDTO);
+            fspIndex++;
+        }
+        requestId = generateUniqueNumber(12);
+        registerBeneficiaryBody = new AccountMapperRequestDTO(requestId, sourceBBID, beneficiaryDTOList);
+    }
+
+    @And("I create a IdentityMapperDTO for registering payee with IAM")
+    public void iCreateAIdentityMapperDTOForRegisteringPayee() {
+        List<BeneficiaryDTO> beneficiaryDTOList = new ArrayList<>();
+        String[] payeeFsps = { "payeefsp1", "payeefsp2", "payeefsp3" };
+        String[] payeeIdentifiers = { "400173110196", "400174120160", "400173110195" };
+        String[] financialAddressArray = { "1234", "2235", "3235" };
+        int fspIndex = 0;
+        for (String payeeIdentifier : payeeIdentifiers) {
+            BeneficiaryDTO beneficiaryDTO = new BeneficiaryDTO(payeeIdentifier, "00", financialAddressArray[fspIndex],
+                    payeeFspConfig.getPayeeFsp(payeeFsps[fspIndex]));
             beneficiaryDTOList.add(beneficiaryDTO);
             fspIndex++;
         }

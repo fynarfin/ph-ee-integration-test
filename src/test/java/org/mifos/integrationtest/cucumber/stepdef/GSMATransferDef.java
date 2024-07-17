@@ -113,7 +113,7 @@ public class GSMATransferDef extends GsmaConfig {
         String name = new StringBuilder().append(getAlphaNumericString(4)).append(tenant).toString();
         String shortName = getAlphaNumericString(4);
         PostLoanProductsRequest loanProductsRequest = new PostLoanProductsRequest();
-        loanProductsRequest.setCurrencyCode("USD");
+        loanProductsRequest.setCurrencyCode("TZS");
         loanProductsRequest.setInMultiplesOf(2);
         loanProductsRequest.setDigitsAfterDecimal(2);
         loanProductsRequest.setDaysInYearType(1);
@@ -128,7 +128,7 @@ public class GSMATransferDef extends GsmaConfig {
         loanProductsRequest.setInterestType(1);
         loanProductsRequest.setInterestRatePerPeriod(19.0);
         loanProductsRequest.setRepaymentEvery(1);
-        loanProductsRequest.setTransactionProcessingStrategyId(1);
+        loanProductsRequest.setTransactionProcessingStrategyCode("mifos-standard-strategy");
         loanProductsRequest.setAmortizationType(1);
         loanProductsRequest.setAccountingRule(1);
         loanProductsRequest.setInterestRateFrequencyType(2);
@@ -162,7 +162,7 @@ public class GSMATransferDef extends GsmaConfig {
         loanAccountData.setAmortizationType(1);
         loanAccountData.setInterestType(0);
         loanAccountData.setInterestCalculationPeriodType(0);
-        loanAccountData.setTransactionProcessingStrategyId(1);
+        loanAccountData.setTransactionProcessingStrategyCode("mifos-standard-strategy");
         loanAccountData.setLocale("en");
         loanAccountData.setDateFormat("dd MMMM yyyy");
         loanAccountData.setLoanType("individual");
@@ -211,7 +211,7 @@ public class GSMATransferDef extends GsmaConfig {
         String shortName = getAlphaNumericString(4);
 
         PostSavingsProductsRequest savingsProductsRequest = new PostSavingsProductsRequest();
-        savingsProductsRequest.setCurrencyCode("USD");
+        savingsProductsRequest.setCurrencyCode("TZS");
         savingsProductsRequest.setDigitsAfterDecimal(2);
         savingsProductsRequest.setInterestCompoundingPeriodType(1);
         savingsProductsRequest.setInterestPostingPeriodType(4);
@@ -335,7 +335,7 @@ public class GSMATransferDef extends GsmaConfig {
         String dateFormatGiven = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
         String currentDate = new SimpleDateFormat(dateFormatGiven).format(new Date());
 
-        GsmaTransfer gsmaTransfer = new GsmaTransfer("RKTQDM7W6S", "inbound", "transfer", Integer.toString(amount), "USD", "note",
+        GsmaTransfer gsmaTransfer = new GsmaTransfer("RKTQDM7W6S", "inbound", "transfer", Integer.toString(amount), "TZS", "note",
                 currentDate, customData, payer, payee);
         return objectMapper.writeValueAsString(gsmaTransfer);
     }
