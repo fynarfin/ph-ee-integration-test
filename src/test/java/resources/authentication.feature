@@ -1,4 +1,4 @@
-@gov @ext
+@gov @ext @ci
 Feature: Authentication test for services routed through kong & keycloak
 
   @keycloak-user-setup @keycloak-user-teardown @kong-teardown

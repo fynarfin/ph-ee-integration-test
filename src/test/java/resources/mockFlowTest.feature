@@ -1,4 +1,4 @@
-@gov
+@gov @ci
 Feature: Mock Flow Test
 
   @ext

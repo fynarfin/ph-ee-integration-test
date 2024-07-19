@@ -1,4 +1,4 @@
-@e2e
+@e2e @ci
 Feature: Test ability to make payment to individual with bank account
 
   @commonExtended

@@ -1,7 +1,7 @@
 
 Feature: Bill Payment P2G Test
 
-  @gov
+  @gov @ci
    #this is an integration for bill inquiry stage w/o rtp, includes bill inquiry api only from PFI to PBB to Bill Agg and back
   Scenario: BI-001 Bill Inquiry API for orchestration (PFI to PBB)
     Given I can inject MockServer
@@ -16,7 +16,7 @@ Feature: Bill Payment P2G Test
 #    And I will sleep for 5000 millisecond
     Then I should be able to extract response body from callback for bill pay
 
-  @gov
+  @gov @ci
         #this is an integration for payment notification, includes api calls from PFI to PBB to Bill Agg and back (tests full flow)
   Scenario: BP-001 Bill Payments API for orchestration (PFI to PBB)
     Given I can inject MockServer
@@ -78,7 +78,7 @@ Feature: Bill Payment P2G Test
     When I call the mock bills payment api from PBB to Biller with billid with expected status of 202
     Then I should get non empty response
 
-  @gov
+  @gov @ci
   Scenario: RTP-001 RTP Integration test
     Given I can inject MockServer
     And I can start mock server
@@ -93,7 +93,7 @@ Feature: Bill Payment P2G Test
 #    Then I will sleep for 8000 millisecond
     And I can extract the callback body and assert the rtpStatus
 
-  @gov
+  @gov @ci
   Scenario: BI-002 Bill Inquiry API for orchestration fails due to invalid prefix (PFI to PBB)
     Given I can inject MockServer
     And I can start mock server
@@ -107,7 +107,7 @@ Feature: Bill Payment P2G Test
 #    And I will sleep for 5000 millisecond
     Then I should be able to extract response body from callback for biller unidentified
 
-  @gov
+  @gov @ci
   Scenario: BI-003A: Bill Inquiry API for orchestration fails due to invalid bill (PBB TO BA)
     Given I can inject MockServer
     And I can start mock server
@@ -121,7 +121,7 @@ Feature: Bill Payment P2G Test
 #    And I will sleep for 5000 millisecond
     Then I should be able to extract response body from callback for bill invalid
 
-  @gov
+  @gov @ci
   Scenario: BI-003B: Bill Inquiry API for orchestration fails due to payer fsp not onboarded (PFI TO PBB)
     Given I can inject MockServer
     And I can start mock server
@@ -133,7 +133,7 @@ Feature: Bill Payment P2G Test
     Then I should get non empty response
     And I should get Payer FSP not found in response
 
-  @gov
+  @gov @ci
   Scenario: BI-004: Bill Inquiry API for orchestration fails due to empty bill (PBB TO BA)
     Given I can inject MockServer
     And I can start mock server
@@ -147,7 +147,7 @@ Feature: Bill Payment P2G Test
 #    And I will sleep for 5000 millisecond
     Then I should be able to extract response body from callback for empty bill id
 
-  @gov
+  @gov @ci
   Scenario: BP-003 Bill Payments API fails due to mandatory fields missing (PFI to PBB)
     Given I can inject MockServer
     And I can start mock server
@@ -160,7 +160,7 @@ Feature: Bill Payment P2G Test
     Then I should get non empty response
     And I should be able to assert negative response body
 
-  @gov
+  @gov @ci
   Scenario: BP-003A Bill Payments API fails due to mandatory fields missing -Bill Id(PFI to PBB)
     Given I can inject MockServer
     And I can start mock server
@@ -173,7 +173,7 @@ Feature: Bill Payment P2G Test
     And I should be able to assert negative response body
     Then I will assert that response contains "error.msg.schema.bill.id.cannot.be.null.or.empty"
 
-  @gov
+  @gov @ci
   Scenario: BP-004A Bill Payments API fails due to bill already marked paid (PFI to PBB)
     Given I can inject MockServer
     And I can start mock server
@@ -189,7 +189,7 @@ Feature: Bill Payment P2G Test
     Then I should be able to extract response body from callback for bill already paid
     Then I can stop mock server
 
-  @gov
+  @gov @ci
   Scenario: BP-004B Bill Payments API fails due to bill marked as paid after a timeout (PFI to PBB)
     Given I can inject MockServer
     And I can start mock server
@@ -208,7 +208,7 @@ Feature: Bill Payment P2G Test
     Then I should be able to extract response body from callback for bill paid after timeout
 
 
-  @gov
+  @gov @ci
   Scenario: RTP-002 Request to Pay is unsuccessful because RtP type of Alias is not specified
     Given I have tenant as "paymentBB2"
     And I have a billerId as "GovBill"
@@ -220,7 +220,7 @@ Feature: Bill Payment P2G Test
     And I should be able to assert negative response body
     Then I will assert that response contains "error.msg.schema.payer.fsp.details.cannot.be.null.or.empty"
 
-  @gov
+  @gov @ci
   Scenario: RTP-003 Request to Pay is unsuccessful because RtP type does not match with the information provided
     Given I have tenant as "paymentBB2"
     And I have a billerId as "GovBill"
@@ -233,7 +233,7 @@ Feature: Bill Payment P2G Test
     And I should be able to assert negative response body
     Then I will assert that response contains "error.msg.schema.alias.cannot.be.null.or.empty"
 
-  @gov
+  @gov @ci
   Scenario: RTP-004 Request to Pay is unsuccessful because of invalid RTP type (alias or bank account)
     Given I have tenant as "paymentBB2"
     And I have a billerId as "GovBill"
@@ -246,7 +246,7 @@ Feature: Bill Payment P2G Test
     And I should be able to assert negative response body
     Then I will assert that response contains "error.msg.schema.request.type.is.invalid"
 
-  @gov
+  @gov @ci
   Scenario: RTP-005 Request to Pay is unsuccessful because of  Alias type and Alias information mismatch
     Given I have tenant as "paymentBB2"
     And I have a billerId as "GovBill"
@@ -259,7 +259,7 @@ Feature: Bill Payment P2G Test
     And I should be able to assert negative response body
     Then I will assert that response contains "error.msg.schema.request.type.is.invalid"
 
-  @gov
+  @gov @ci
   Scenario: RTP-006 Request to Pay is unsuccessful because of invalid/incorrect BIC
     Given I have tenant as "paymentBB2"
     And I have a billerId as "GovBill"
@@ -272,7 +272,7 @@ Feature: Bill Payment P2G Test
     And I should be able to assert negative response body
     Then I will assert that response contains "error.msg.schema.payer.fsp.details.cannot.be.null.or.empty"
 
-  @gov
+  @gov @ci
   Scenario: RTP-008 Request to Pay is unsuccessful because the specified account of the Payer FI was unreachable - did not respond (Txn timed out)
 
     Given I can inject MockServer
@@ -289,7 +289,7 @@ Feature: Bill Payment P2G Test
 #    Then I will sleep for 3000 millisecond
     And I can extract the error from callback body and assert error message as "Payer FI was unreachable"
 
-  @gov
+  @gov @ci
   Scenario: RTP-009 Request to Pay is unsuccessful because the Payer FSP is unable to debit amount (insufficient amount/ blocked account/ account hold etc)
   (Payer FSP declines)
     Given I can inject MockServer
@@ -304,7 +304,7 @@ Feature: Bill Payment P2G Test
 #    Then I will sleep for 3000 millisecond
     And I can extract the error from callback body and assert error message as "Payer FSP is unable to debit amount"
 
-  @gov
+  @gov @ci
   Scenario: BS-001 Bill RTP Status API to get COMPLETED
     Given I can inject MockServer
     And I can start mock server
@@ -319,7 +319,7 @@ Feature: Bill Payment P2G Test
     Given I can create a request for status api
     And I can call the biller RTP status API with expected status of 200 until I get the rtpStatus as "COM"
 
-  @gov
+  @gov @ci
   Scenario: BS-002 Bill RTP Status API to get PENDING
     Given I can inject MockServer
     And I can start mock server
@@ -333,7 +333,7 @@ Feature: Bill Payment P2G Test
     Given I can create a request for status api
     And I can call the biller RTP status API with expected status of 200 until I get the rtpStatus as "PND"
 
-  @gov
+  @gov @ci
   Scenario: BS-003 Bill RTP Status API to get req accepted
     Given I can inject MockServer
     And I can start mock server
@@ -347,7 +347,7 @@ Feature: Bill Payment P2G Test
     Given I can create a request for status api
     And I can call the biller RTP status API with expected status of 200 until I get the rtpStatus as "REQUEST_ACCEPTED"
 
-  @gov
+  @gov @ci
   Scenario: BS-004 Bill RTP Status API to get accepted
     Given I can inject MockServer
     And I can start mock server
@@ -361,7 +361,7 @@ Feature: Bill Payment P2G Test
     Given I can create a request for status api
     And I can call the biller RTP status API with expected status of 200 until I get the rtpStatus as "ACCEPTED"
 
-  @gov
+  @gov @ci
   Scenario: Unsupported header validation for Bill Payments API
     Given I have tenant as "paymentBB2"
     And I generate clientCorrelationId

@@ -1,3 +1,4 @@
+@ci
 Feature: Account Status and Account Name Check api
 
   @common @amsIntegration

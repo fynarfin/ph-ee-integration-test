@@ -1,4 +1,4 @@
-@ext
+@ext @ci
 Feature: Operations APP related feature
 
   @gov @ops-batch-setup @ops-batch-teardown
