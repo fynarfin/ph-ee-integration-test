@@ -1,4 +1,3 @@
-@gov @ext
 Feature: Batches API validation test
 
   Scenario: BS-001,002,003 Batches API with invalid offset, limit and sort value

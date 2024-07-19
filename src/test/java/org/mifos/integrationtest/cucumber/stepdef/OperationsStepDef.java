@@ -179,8 +179,7 @@ public class OperationsStepDef extends BaseStepDef {
         String limit = String.valueOf(-25);
         String sort = "abcd";
 
-
-        String endpoint = String.format("%s?offset=%s&limit=%s&sort=%s", operationsAppConfig.batchesEndpoint, offset,limit,sort);
+        String endpoint = String.format("%s?offset=%s&limit=%s&sort=%s", operationsAppConfig.batchesEndpoint, offset, limit, sort);
         String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
 
         logger.info("Calling endpoint with invalid offset,limit and sort: {}", fullUrl);
@@ -220,7 +219,8 @@ public class OperationsStepDef extends BaseStepDef {
         String batchId = "1111-1111-1111";
 
         // Construct the endpoint with the invalid values
-        String endpoint = String.format("%s?registeringInstitutionId=%s&payerFsp=%s&batchId=%s", operationsAppConfig.transactionRequestsEndpoint,registeringInstitutionId,payerFsp, batchId);
+        String endpoint = String.format("%s?registeringInstitutionId=%s&payerFsp=%s&batchId=%s",
+                operationsAppConfig.transactionRequestsEndpoint, registeringInstitutionId, payerFsp, batchId);
         String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
 
         logger.info("Calling endpoint with invalid registeringInstitutionId,payerFsp and batchId: {}", fullUrl);
