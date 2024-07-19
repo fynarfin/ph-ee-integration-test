@@ -167,4 +167,67 @@ public class OperationsStepDef extends BaseStepDef {
 
     }
 
+    @And("I should have {string} in response")
+    public void iShouldHaveInResponse(String error) {
+        assertThat(scenarioScopeState.response).containsMatch(error);
+    }
+
+    @When("I call the Batches API with invalid offset, limit and sort value expecting status of {int}")
+    public void iCallTheBatchesAPIWithInvalidOffsetLimitAndSortValueExpectingStatusOf(int expectedStatusCode) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+        String offset = String.valueOf(-2);
+        String limit = String.valueOf(-25);
+        String sort = "abcd";
+
+        String endpoint = String.format("%s?offset=%s&limit=%s&sort=%s", operationsAppConfig.batchesEndpoint, offset, limit, sort);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid offset,limit and sort: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatusCode).build()).when().get(endpoint).andReturn().asString();
+
+        logger.info("Calling Batches invalid offset,limit and sort Response: {}", scenarioScopeState.response);
+    }
+
+    @When("I call the Batches API with invalid dateFrom and dateTo value expecting status of {int}")
+    public void iCallTheBatchesAPIWithInvalidDateFromAndDateToValueExpectingStatusOf(int expectedStatusCode) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+
+        String invalidStartDate = "1111-11-1111";
+        String invalidEndDate = "2222-22-2222";
+
+        // Construct the endpoint with the invalid date parameters
+        String endpoint = String.format("%s?dateFrom=%s&dateTo=%s", operationsAppConfig.transactionRequestsEndpoint, invalidStartDate,
+                invalidEndDate);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid dateFrom and dateTo: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatusCode).build()).when().get(endpoint).andReturn().asString();
+
+        logger.info("Calling Batches invalid dateFrom and dateTo Response: {}", scenarioScopeState.response);
+    }
+
+    @When("I call the Batches API with invalid registeringInstitutionId,payerFsp and batchId value expecting status of {int}")
+    public void iCallTheBatchesAPIWithInvalidRegisteringInstitutionIdPayerFspAndBatchIdValueExpectingStatusOf(int expectedStatusCode) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+
+        String registeringInstitutionId = "abdcefgh";
+        String payerFsp = "lion";
+        String batchId = "1111-1111-1111";
+
+        // Construct the endpoint with the invalid values
+        String endpoint = String.format("%s?registeringInstitutionId=%s&payerFsp=%s&batchId=%s",
+                operationsAppConfig.transactionRequestsEndpoint, registeringInstitutionId, payerFsp, batchId);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid registeringInstitutionId,payerFsp and batchId: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatusCode).build()).when().get(endpoint).andReturn().asString();
+
+        logger.info("Batches with invalid registeringInstitutionId,payerFsp and batchId Response: {}", scenarioScopeState.response);
+    }
 }
