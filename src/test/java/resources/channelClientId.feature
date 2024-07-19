@@ -1,4 +1,4 @@
-@gov
+@gov @ci
 Feature: Channel Get Txn by Client Id API test
 
 

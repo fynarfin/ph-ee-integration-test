@@ -1,4 +1,4 @@
-@gov
+@gov @ci
 Feature: Json Web Signature test
 
   Scenario: JWS-001 Test the jws for batchTransactions

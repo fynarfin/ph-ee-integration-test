@@ -1,4 +1,4 @@
-
+@ci
 Feature: Voucher Management Api Test
 
   @gov

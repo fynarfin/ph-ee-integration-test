@@ -7,5 +7,5 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = { "src/test/java/resources" }, glue = { "org.mifos.integrationtest.cucumber" }, plugin = {
         "html:cucumber-report", "json:cucumber.json", "pretty", "html:build/cucumber-report.html", "json:build/cucumber-report.json",
-        "junit:build/cucumber.xml" })
+        "junit:build/cucumber.xml" }, tags = "@common and not @gov and not @amsIntegration")
 public class TestRunner {}

@@ -1,4 +1,4 @@
-@gov
+@gov @ci
 Feature: Validation Error Code Test
 
   Scenario: ECV-001 GSMA Transfer Api NegativeValue Test

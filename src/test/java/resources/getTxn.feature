@@ -1,5 +1,5 @@
 
-@common @gov
+@common @gov @ci
 Feature: Get Txn Req API test
 
   Scenario: GTX-001 Get Txn Req API Test With Auth
