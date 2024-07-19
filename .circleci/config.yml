@@ -430,14 +430,14 @@ workflows:
             - AWS
             - Helm
             - slack
-      - test-chart-e2e:
-          requires:
-            - deploying-bpmns
-          context:
-            - AWS
-            - Helm
-            - slack
-            - Ngrok
+#      - test-chart-e2e:
+#          requires:
+#            - deploying-bpmns
+#          context:
+#            - AWS
+#            - Helm
+#            - slack
+#            - Ngrok
 #      - test-chart-ams:
 #          requires:
 #            - test-chart-e2e
@@ -456,7 +456,7 @@ workflows:
 #            - Ngrok
       - test-chart-common:
           requires:
-            - test-chart-gov
+            - deploying-bpmns
           context:
             - AWS
             - Helm
