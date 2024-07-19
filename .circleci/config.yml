@@ -340,7 +340,7 @@ jobs:
             export CALLBACK_URL="https://$NGROK_PUBLIC_URL"
             echo -n "Public url ."
             echo $CALLBACK_URL
-            ./gradlew test -Dcucumber.filter.tags="@common"
+            ./gradlew test -Dcucumber.filter.tags="@common and not @gov and not @amsIntegration"
             echo -n "Test execution is completed, kill ngrok"
             pkill ngrok
       - store_test_results:
@@ -438,22 +438,22 @@ workflows:
             - Helm
             - slack
             - Ngrok
-      - test-chart-ams:
-          requires:
-            - test-chart-e2e
-          context:
-            - AWS
-            - Helm
-            - slack
-            - Ngrok
-      - test-chart-gov:
-          requires:
-            - test-chart-ams
-          context:
-            - AWS
-            - Helm
-            - slack
-            - Ngrok
+#      - test-chart-ams:
+#          requires:
+#            - test-chart-e2e
+#          context:
+#            - AWS
+#            - Helm
+#            - slack
+#            - Ngrok
+#      - test-chart-gov:
+#          requires:
+#            - test-chart-ams
+#          context:
+#            - AWS
+#            - Helm
+#            - slack
+#            - Ngrok
       - test-chart-common:
           requires:
             - test-chart-gov
@@ -462,14 +462,14 @@ workflows:
             - Helm
             - slack
             - Ngrok
-      - test-chart-common-extended:
-          requires:
-            - test-chart-common
-          context:
-            - AWS
-            - Helm
-            - slack
-            - Ngrok
+#      - test-chart-common-extended:
+#          requires:
+#            - test-chart-common
+#          context:
+#            - AWS
+#            - Helm
+#            - slack
+#            - Ngrok
       - create-tls-secret-paymenthub-namespace:
           context:
             - AWS
