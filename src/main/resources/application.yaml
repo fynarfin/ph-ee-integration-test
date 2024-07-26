@@ -254,7 +254,7 @@ billPay:
     billStatus: /transferRequests/{{correlationId}}
 
 awaitly:
-  maxWaitTime: 25
+  maxWaitTime: 120
   pollDelaySeconds: 2
   pollIntervalSeconds: 1
 

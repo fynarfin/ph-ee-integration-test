@@ -363,6 +363,7 @@ public class BatchApiStepDef extends BaseStepDef {
 
     @Then("I check for result file URL validity")
     public void iCheckForResultFileURLValidity() {
+        logger.info("batch summary file response is : {}", scenarioScopeState.batchAndSubBatchSummaryResponse.getFile());
         assertThat(isValidURL(scenarioScopeState.batchAndSubBatchSummaryResponse.getFile())).isTrue();
     }
 
@@ -612,6 +613,7 @@ public class BatchApiStepDef extends BaseStepDef {
             logger.error("Error parsing the batch summary response", e);
         }
         assertThat(scenarioScopeState.batchAndSubBatchSummaryResponse).isNotNull();
+        assertThat(scenarioScopeState.batchAndSubBatchSummaryResponse.getFile()).isNotNull();
     }
 
     @And("I call the sub batch summary API for sub batch summary with expected status of {int} and total count {int}")
