@@ -861,4 +861,59 @@ public class BatchApiStepDef extends BaseStepDef {
             logger.error(e.getMessage());
         }
     }
+
+    @When("I call the Batches API with invalid batchId expecting status of {int}")
+    public void iCallTheBatchesAPIWithInvalidBatchIdAndRequestidExpectingStatusOf(int expectedStatus) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+        String batchId = "Jupiter";
+        // String requestId = "1234";
+
+        String endpoint = String.format("%s?batchId=%s", operationsAppConfig.batchDetailsEndpoint, batchId);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid batchId: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
+
+        logger.info("Batch details with invalid batchId Response: {}", scenarioScopeState.response);
+    }
+
+    @And("I should have {string} in response")
+    public void iShouldHaveInResponse(String error) {
+        assertThat(scenarioScopeState.response).containsMatch(error);
+    }
+
+    @When("I call the Batches API with invalid pageNo and pageSize expecting status of {int}")
+    public void iCallTheBatchesAPIWithInvalidPageNoAndPageSizeExpectingStatusOf(int expectedStatus) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+        float pageNo = -3;
+        float pageSize = -2;
+
+        String endpoint = String.format("%s?pageNo=%f&pageSize=%f", operationsAppConfig.batchDetailsEndpoint, pageNo, pageSize);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid pageNo and pageSize: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
+
+        logger.info("Batch details with invalid pageNo and pageSize Response: {}", scenarioScopeState.response);
+    }
+
+    @When("I call the Batches API with invalid status expecting status of {int}")
+    public void iCallTheBatchesAPIWithInvalidStatusExpectingStatusOf(int expectedStatus) {
+        RequestSpecification requestSpec = Utils.getDefaultSpec(scenarioScopeState.tenant);
+        String status = "DONE";
+
+        String endpoint = String.format("%s?status=%s", operationsAppConfig.batchDetailsEndpoint, status);
+        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
+
+        logger.info("Calling endpoint with invalid status: {}", fullUrl);
+
+        scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
+                .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
+
+        logger.info("Batch details with invalid status Response: {}", scenarioScopeState.response);
+    }
 }
