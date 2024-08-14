@@ -314,12 +314,14 @@ Feature: Batch Details API test
 
   Scenario: BD-020 Batch details with invalid batchId
     Given I have tenant as "paymentbb2"
+    # Tenant value passed in the batchId
     When I call the Batches API with invalid batchId expecting status of 400
     Then I should get non empty response
     And I should have "Invalid batchId" in response
 
   Scenario: BD-021 Batch details with invalid pageNo and pageSize
     Given I have tenant as "paymentbb2"
+    # Both parameters values is set as negative
     When I call the Batches API with invalid pageNo and pageSize expecting status of 400
     Then I should get non empty response
     And I should have "Invalid batchId" in response

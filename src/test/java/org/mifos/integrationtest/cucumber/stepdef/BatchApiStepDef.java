@@ -869,9 +869,8 @@ public class BatchApiStepDef extends BaseStepDef {
         // String requestId = "1234";
 
         String endpoint = String.format("%s?batchId=%s", operationsAppConfig.batchDetailsEndpoint, batchId);
-        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
 
-        logger.info("Calling endpoint with invalid batchId: {}", fullUrl);
+        logger.info("Calling endpoint with invalid batchId: {}", endpoint);
 
         scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
                 .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
@@ -891,9 +890,8 @@ public class BatchApiStepDef extends BaseStepDef {
         float pageSize = -2;
 
         String endpoint = String.format("%s?pageNo=%f&pageSize=%f", operationsAppConfig.batchDetailsEndpoint, pageNo, pageSize);
-        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
 
-        logger.info("Calling endpoint with invalid pageNo and pageSize: {}", fullUrl);
+        logger.info("Calling endpoint with invalid pageNo and pageSize: {}", endpoint);
 
         scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
                 .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
@@ -907,9 +905,8 @@ public class BatchApiStepDef extends BaseStepDef {
         String status = "DONE";
 
         String endpoint = String.format("%s?status=%s", operationsAppConfig.batchDetailsEndpoint, status);
-        String fullUrl = operationsAppConfig.operationAppContactPoint + endpoint;
 
-        logger.info("Calling endpoint with invalid status: {}", fullUrl);
+        logger.info("Calling endpoint with invalid status: {}", endpoint);
 
         scenarioScopeState.response = RestAssured.given(requestSpec).baseUri(operationsAppConfig.operationAppContactPoint).expect()
                 .spec(new ResponseSpecBuilder().expectStatusCode(expectedStatus).build()).when().get(endpoint).andReturn().asString();
